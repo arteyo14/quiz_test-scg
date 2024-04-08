@@ -25,7 +25,11 @@ defineProps({
     empty-message="ไม่พบข้อมูล"
     hide-footer
   >
-    <template v-if="$slots['empty-message']" #empty-message>
+    <template v-if="$slots['customize-headers']" #customize-headers>
+      <slot name="customize-headers" />
+    </template>
+
+    <template v-else-if="$slots['empty-message']" #empty-message>
       <slot name="empty-message" />
     </template>
     <template v-for="(header, key) of headers" #[`header-${header.value}`]="item" :key="key">

@@ -73,26 +73,43 @@ const headers: ComputedRef<Header[]> = computed(() => {
           </button>
         </div>
         <div class="col-12 mt-4 px-0">
-          <DataTable :headers="headers" :loading="store.loading" :items="store.data">
-            <template
-              v-for="(header, key) in headers"
-              #[`item-${header.value}`]="{ item }"
-              :key="header.value + key"
-            >
-              <div v-if="header.value === 'Material'" class="text-center">
-                {{ item.Material }}
-              </div>
-              <div v-else-if="header.value !== 'Sum'" class="text-center p-2">
-                {{ header.value + key }}
-                <TextInput
-                  v-model="item.QTY"
-                  :name="header.value + key"
-                  class="justify-self-center"
-                />
-              </div>
-              <!-- Optionally handle the 'Sum' column or other special columns if necessary -->
-            </template>
-          </DataTable>
+          <table class="table">
+            <!-- Table Head -->
+            <thead>
+              <tr>
+                <th class="text-center" v-for="header in headers" :key="header.value">
+                  {{ header.text }}
+                </th>
+              </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+              <tr v-if="!store.loading" v-for="item in store.items" :key="item.Material">
+                <td class="text-center">{{ item.Material }}</td>
+                <!-- Dynamically create a cell for each location header -->
+                <td
+                  v-for="header in headers.filter(
+                    (h) => h.value !== 'Material' && h.value !== 'Sum'
+                  )"
+                  :key="header.value"
+                  class="text-center"
+                >
+                  <input
+                    type="text"
+                    v-model="item[header.value]"
+                    class="form-control text-center"
+                    :name="`${header.value}-${item.Material}`"
+                  />
+                </td>
+                <td class="text-center">{{ store.calculateSum(headers, item) }}</td>
+              </tr>
+              <tr v-else="store.loading">
+                <td :colspan="headers.length" class="text-center py-4">
+                  <span class="spinner-border spinner-border-md align-middle ms-2"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="col-12 text-end mt-4">
           <button type="button" class="btn btn-success">SAVE</button>

@@ -5,7 +5,7 @@ import { ErrorMessage, Field, useField } from 'vee-validate'
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: String || Number,
     default: ''
   },
   label: {

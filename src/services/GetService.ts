@@ -7,7 +7,7 @@ export const materialData = [
   },
   {
     Material: 'MAT0001',
-    ProductCode: ';PC000001',
+    ProductCode: 'PC000001',
     Location: 'A2',
     QTY: 100
   },
