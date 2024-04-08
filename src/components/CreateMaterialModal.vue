@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Modal } from 'bootstrap'
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import SearchInput from './SearchInput.vue'
 import TextInput from './TextInput.vue'
 import TextAreaInput from './TextAreaInput.vue'
 import { useMaterialStore, useAddMaterialStore } from '@/stores'
+import { useForm } from 'vee-validate'
 
 defineProps({
   options: {
@@ -17,8 +18,11 @@ const store = useAddMaterialStore()
 const mainStore = useMaterialStore()
 const emit = defineEmits(['updateData'])
 
+const { resetForm } = useForm()
+
 const modal = ref()
 const showModal = () => {
+  resetForm()
   const modalElement = modal.value
   const bootstrapModal = new Modal(modalElement)
   bootstrapModal.show()
@@ -28,6 +32,7 @@ const hideModal = () => {
   const modalElement = modal.value
   const bootstrapModal = Modal.getInstance(modalElement)
 
+  resetForm()
   store.$reset()
   store.$dispose()
   bootstrapModal?.hide()
@@ -37,6 +42,11 @@ const refreshData = () => {
   hideModal()
   mainStore.generateItems()
 }
+
+onUnmounted(() => {
+  store.$dispose()
+  store.$reset()
+})
 
 defineExpose({
   showModal,
