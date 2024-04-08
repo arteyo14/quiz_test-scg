@@ -4,6 +4,7 @@ import CreateMaterialModal from './CreateMaterialModal.vue'
 import { computed, onMounted, ref, type ComputedRef } from 'vue'
 import type { Header } from 'vue3-easy-data-table'
 import { useMaterialStore } from '@/stores/mainStore'
+import { useForm } from 'vee-validate'
 
 const store = useMaterialStore()
 
@@ -12,6 +13,13 @@ const modalCreate = ref()
 onMounted(() => {
   store.getData()
 })
+
+const { resetField } = useForm()
+
+const onResetSearch = () => {
+  resetField('material', { value: '' })
+  store.resetSearch()
+}
 
 const showModal = () => {
   modalCreate.value?.showModal()
@@ -51,11 +59,7 @@ const headers: ComputedRef<Header[]> = computed(() => {
               <button type="button" class="ms-4 btn btn-success py-1 mt-4" @click="store.getData">
                 <span class="fs-6">SEARCH</span>
               </button>
-              <button
-                type="button"
-                class="ms-2 btn btn-danger py-1 mt-4"
-                @click="store.resetSearch"
-              >
+              <button type="button" class="ms-2 btn btn-danger py-1 mt-4" @click="onResetSearch">
                 <span class="fs-6">RESET</span>
               </button>
             </div>
@@ -102,9 +106,14 @@ const headers: ComputedRef<Header[]> = computed(() => {
                 </td>
                 <td class="text-center">{{ store.calculateSum(headers, item) }}</td>
               </tr>
-              <tr v-else="store.loading">
+              <tr v-else-if="store.loading">
                 <td :colspan="headers.length" class="text-center py-4">
                   <span class="spinner-border spinner-border-md align-middle ms-2"></span>
+                </td>
+              </tr>
+              <tr v-show="store.items.length === 0 && !store.loading">
+                <td :colspan="headers.length" class="text-center py-4">
+                  <span class="text-center fs-6">Data Not Found</span>
                 </td>
               </tr>
             </tbody>

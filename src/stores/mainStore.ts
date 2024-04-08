@@ -36,12 +36,13 @@ export const useMaterialStore = defineStore('material', {
 
       await nextTick()
       setTimeout(() => {
-        this.data = this.filterDataByKeyword(materialData, this.search)
+        this.data = materialData
         this.generateItems()
+        this.items = this.filterDataByKeyword(this.items, this.search)
         this.loading = false
       }, 3000)
     },
-    filterDataByKeyword(data: MaterialData[], keyword: string) {
+    filterDataByKeyword(data: DataTable[], keyword: string) {
       return data.filter((item) =>
         Object.values(item).some((value) =>
           value.toString().toLowerCase().includes(keyword.toLowerCase())
