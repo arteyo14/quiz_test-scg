@@ -88,7 +88,7 @@ const headers: ComputedRef<Header[]> = computed(() => {
             <!-- Table Body -->
             <tbody>
               <tr v-if="!store.loading" v-for="item in store.items" :key="item.Material">
-                <td class="text-center">{{ item.Material }}</td>
+                <td class="text-center" style="padding-top: 1em">{{ item.Material }}</td>
                 <!-- Dynamically create a cell for each location header -->
                 <td
                   v-for="header in headers.filter(
@@ -104,7 +104,9 @@ const headers: ComputedRef<Header[]> = computed(() => {
                     :name="`${header.value}-${item.Material}`"
                   />
                 </td>
-                <td class="text-center">{{ store.calculateSum(headers, item) }}</td>
+                <td class="text-center" style="padding-top: 1em">
+                  {{ store.calculateSum(headers, item) }}
+                </td>
               </tr>
               <tr v-else-if="store.loading">
                 <td :colspan="headers.length" class="text-center py-4">
