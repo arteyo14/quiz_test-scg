@@ -77,7 +77,6 @@ const headers: ComputedRef<Header[]> = computed(() => {
         </div>
         <div class="col-12 mt-4 px-0">
           <table class="table">
-            <!-- Table Head -->
             <thead>
               <tr>
                 <th class="text-center" v-for="header in headers" :key="header.value">
@@ -85,11 +84,9 @@ const headers: ComputedRef<Header[]> = computed(() => {
                 </th>
               </tr>
             </thead>
-            <!-- Table Body -->
             <tbody>
               <tr v-if="!store.loading" v-for="item in store.items" :key="item.Material">
                 <td class="text-center" style="padding-top: 1em">{{ item.Material }}</td>
-                <!-- Dynamically create a cell for each location header -->
                 <td
                   v-for="header in headers.filter(
                     (h) => h.value !== 'Material' && h.value !== 'Sum'

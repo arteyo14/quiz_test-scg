@@ -4,8 +4,7 @@ import { ref } from 'vue'
 import SearchInput from './SearchInput.vue'
 import TextInput from './TextInput.vue'
 import TextAreaInput from './TextAreaInput.vue'
-import { useAddMaterialStore } from '@/stores/addMaterialStore'
-import { useMaterialStore } from '@/stores'
+import { useMaterialStore, useAddMaterialStore } from '@/stores'
 
 defineProps({
   options: {

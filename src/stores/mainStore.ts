@@ -7,7 +7,7 @@ import type { Header } from 'vue3-easy-data-table'
 interface DataTable {
   Material: string
   ProductCode: string
-  [key: string]: string | number // Allows additional properties to be either string or number
+  [key: string]: string | number
 }
 
 interface IState {
@@ -20,7 +20,7 @@ interface IState {
 interface SummarizedMaterialData {
   Material: string
   ProductCode: string
-  [location: string]: string | number // Use index signature for dynamic location keys with number values.
+  [location: string]: string | number
 }
 
 export const useMaterialStore = defineStore('material', {
