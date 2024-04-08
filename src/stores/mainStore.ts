@@ -37,7 +37,7 @@ export const useMaterialStore = defineStore('material', {
       await nextTick()
       setTimeout(() => {
         this.data = this.filterDataByKeyword(materialData, this.search)
-        this.generateItems(materialData)
+        this.generateItems()
         this.loading = false
       }, 3000)
     },
@@ -52,8 +52,8 @@ export const useMaterialStore = defineStore('material', {
       this.search = ''
       this.getData()
     },
-    generateItems(data: MaterialData[]) {
-      const summarizedMaterials: SummarizedMaterialData[] = data.reduce(
+    generateItems() {
+      const summarizedMaterials: SummarizedMaterialData[] = this.data.reduce(
         (acc: SummarizedMaterialData[], { Material, ProductCode, Location, QTY }) => {
           const materialEntry = acc.find((entry) => entry.Material === Material)
 
@@ -73,7 +73,7 @@ export const useMaterialStore = defineStore('material', {
         []
       )
 
-      const allLocations = [...new Set(data.map((item) => item.Location))]
+      const allLocations = [...new Set(this.data.map((item) => item.Location))]
 
       const normalizedMaterials: SummarizedMaterialData[] = summarizedMaterials.map((material) => {
         allLocations.forEach((location) => {

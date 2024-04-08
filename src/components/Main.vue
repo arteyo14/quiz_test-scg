@@ -2,8 +2,7 @@
 import TextInput from './TextInput.vue'
 import CreateMaterialModal from './CreateMaterialModal.vue'
 import { computed, onMounted, ref, type ComputedRef } from 'vue'
-import DataTable from './DataTable.vue'
-import type { Header, Item } from 'vue3-easy-data-table'
+import type { Header } from 'vue3-easy-data-table'
 import { useMaterialStore } from '@/stores/mainStore'
 
 const store = useMaterialStore()

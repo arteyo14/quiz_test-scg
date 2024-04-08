@@ -34,6 +34,11 @@ const hideModal = () => {
   bootstrapModal?.hide()
 }
 
+const refreshData = () => {
+  hideModal()
+  mainStore.generateItems()
+}
+
 defineExpose({
   showModal,
   hideModal
@@ -85,7 +90,7 @@ defineExpose({
               <button
                 type="button"
                 class="btn btn-success px-4"
-                @click="store.onSubmit(mainStore.data, hideModal)"
+                @click="store.onSubmit(mainStore.data, refreshData)"
               >
                 <span v-if="!store.loading">ADD</span>
                 <span v-else
