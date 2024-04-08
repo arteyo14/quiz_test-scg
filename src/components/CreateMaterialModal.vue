@@ -4,6 +4,19 @@ import { ref } from 'vue'
 import SearchInput from './SearchInput.vue'
 import TextInput from './TextInput.vue'
 import TextAreaInput from './TextAreaInput.vue'
+import { useAddMaterialStore } from '@/stores/addMaterialStore'
+import { useMaterialStore } from '@/stores'
+
+defineProps({
+  options: {
+    type: Array<string> || Array<number>,
+    default: []
+  }
+})
+
+const store = useAddMaterialStore()
+const mainStore = useMaterialStore()
+const emit = defineEmits(['updateData'])
 
 const modal = ref()
 const showModal = () => {
@@ -15,6 +28,9 @@ const showModal = () => {
 const hideModal = () => {
   const modalElement = modal.value
   const bootstrapModal = Modal.getInstance(modalElement)
+
+  store.$reset()
+  store.$dispose()
   bootstrapModal?.hide()
 }
 
@@ -45,23 +61,39 @@ defineExpose({
               <div class="col-12 d-flex">
                 <span class="fs-4 col-5 align-self-end">Material :</span>
                 <SearchInput
+                  v-model="store.material"
                   class="col-7"
-                  :options="['test1', 'test2']"
+                  :options="options"
                   placeholder="ค้นหา"
                   name="material-value"
                 />
               </div>
               <div class="col-12 d-flex mt-3">
                 <span class="fs-4 col-5 align-self-end">Product Code :</span>
-                <TextInput class="col-7" name="product-code" />
+                <TextInput v-model="store.productCode" class="col-7" name="product-code" />
               </div>
               <div class="col-12 mt-2">
                 <span class="fs-4 col-5 align-self-end">Description :</span>
-                <TextAreaInput min-height="130px" name="material-value" />
+                <TextAreaInput
+                  v-model="store.description"
+                  min-height="130px"
+                  name="material-value"
+                />
               </div>
             </div>
             <div class="col-12 d-flex justify-content-center mt-4 gap-3">
-              <button type="button" class="btn btn-success px-4">ADD</button>
+              <button
+                type="button"
+                class="btn btn-success px-4"
+                @click="store.onSubmit(mainStore.data, hideModal)"
+              >
+                <span v-if="!store.loading">ADD</span>
+                <span v-else
+                  >Please Wait...<span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span
+                ></span>
+              </button>
               <button
                 type="button"
                 class="btn btn-light text-dark"

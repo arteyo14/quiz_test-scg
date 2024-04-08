@@ -45,6 +45,13 @@ export const useMaterialStore = defineStore('material', {
       data.forEach((item) => locations.add(item.Location))
 
       return [...locations] || []
+    },
+    getMaterialOptions(state) {
+      const { data } = state
+
+      const options = data.map((item) => item.Material)
+
+      return options ?? []
     }
   }
 })

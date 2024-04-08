@@ -83,6 +83,7 @@ const headers: ComputedRef<Header[]> = computed(() => {
                 {{ item.Material }}
               </div>
               <div v-else-if="header.value !== 'Sum'" class="text-center p-2">
+                {{ header.value + key }}
                 <TextInput
                   v-model="item.QTY"
                   :name="header.value + key"
@@ -99,5 +100,5 @@ const headers: ComputedRef<Header[]> = computed(() => {
       </div>
     </div>
   </div>
-  <CreateMaterialModal ref="modalCreate" />
+  <CreateMaterialModal :options="store.getMaterialOptions" ref="modalCreate" />
 </template>

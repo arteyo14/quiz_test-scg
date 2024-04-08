@@ -3,6 +3,10 @@ import { useField } from 'vee-validate'
 import { onUnmounted } from 'vue'
 
 const props = defineProps({
+  modelValue: {
+    type: String,
+    default: ''
+  },
   label: {
     type: String,
     default: ''
@@ -39,14 +43,14 @@ const updateValue = (event: any) => {
   emit('update:modelValue', event.target.value)
 }
 
-// Prevent Control + V (paste)
-const handlePaste = (event: any) => {
-  if (props.disablePaste) {
-    event.preventDefault()
-  }
-}
+// // Prevent Control + V (paste)
+// const handlePaste = (event: any) => {
+//   if (props.disablePaste) {
+//     event.preventDefault()
+//   }
+// }
 
-const { meta, resetField } = useField(props.name)
+const { resetField } = useField(props.name)
 
 onUnmounted(() => {
   resetField({ value: '' })
@@ -56,6 +60,8 @@ onUnmounted(() => {
   <div class="position-relative">
     <Label :label="label" :required="required" />
     <input
+      type="text"
+      :value="modelValue"
       class="form-control"
       @input="updateValue"
       :disabled="disabled"

@@ -16,6 +16,7 @@
     "@types/bootstrap": "^5.2.10",
     "bootstrap": "5.2.3",
     "pinia": "^2.1.7",
+    "sweetalert2": "^11.10.7",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.21",
     "vue3-easy-data-table": "^1.5.47"
