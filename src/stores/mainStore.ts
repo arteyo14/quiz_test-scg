@@ -8,6 +8,7 @@ interface DataTable {
   Material: string
   ProductCode: string
   [key: string]: string | number
+  description: string
 }
 
 interface IState {
@@ -21,6 +22,7 @@ interface SummarizedMaterialData {
   Material: string
   ProductCode: string
   [location: string]: string | number
+  description: string
 }
 
 export const useMaterialStore = defineStore('material', {
@@ -64,7 +66,8 @@ export const useMaterialStore = defineStore('material', {
             const newMaterialEntry: SummarizedMaterialData = {
               Material,
               ProductCode,
-              [Location]: QTY
+              [Location]: QTY,
+              description: ''
             }
             acc.push(newMaterialEntry)
           }
